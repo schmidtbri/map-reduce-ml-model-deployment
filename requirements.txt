@@ -1,5 +1,5 @@
 contextlib2==0.5.5
-iris-model==0.1.0
+git+https://github.com/schmidtbri/ml-model-abc-improvements#egg=iris_model
 joblib==0.14.1
 numpy==1.18.1
 schema==0.7.0
