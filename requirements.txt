@@ -1,0 +1,7 @@
+contextlib2==0.5.5
+iris-model==0.1.0
+joblib==0.14.1
+numpy==1.18.1
+schema==0.7.0
+scikit-learn==0.21.0
+scipy==1.4.1
