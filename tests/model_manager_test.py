@@ -36,7 +36,7 @@ class ModelManagerTests(unittest.TestCase):
         model_manager = ModelManager()
         # loading the MLModel objects from configuration
         model_manager.load_models(configuration=[{
-            "module_name": "tests.model_manager_tests",
+            "module_name": "tests.model_manager_test",
             "class_name": "MLModelMock"
         }])
 
@@ -64,7 +64,7 @@ class ModelManagerTests(unittest.TestCase):
         # loading the MLModel objects from configuration
         first_model_manager.load_models(configuration=[
             {
-                "module_name": "tests.model_manager_tests",
+                "module_name": "tests.model_manager_test",
                 "class_name": "MLModelMock"
             }
         ])
@@ -91,7 +91,7 @@ class ModelManagerTests(unittest.TestCase):
         try:
             model_manager.load_models(configuration=[
                 {
-                    "module_name": "tests.model_manager_tests",
+                    "module_name": "tests.model_manager_test",
                     "class_name": "SomeClass"               # using the class defined at the top of this file to test
                 }
             ])
@@ -109,7 +109,7 @@ class ModelManagerTests(unittest.TestCase):
         model_manager = ModelManager()
         model_manager.load_models(configuration=[
             {
-                "module_name": "tests.model_manager_tests",
+                "module_name": "tests.model_manager_test",
                 "class_name": "MLModelMock"
             }
         ])
