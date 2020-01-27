@@ -1,4 +1,4 @@
-"""Configuration for the application."""
+"""Configuration for the job."""
 
 
 class Config(dict):

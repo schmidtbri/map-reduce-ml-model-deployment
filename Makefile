@@ -18,6 +18,16 @@ build: ## build a package
 clean-build:  ## clean build artifacts
 	rm -rf build
 	rm -rf dist
+	rm -rf vendors
+	rm -rf model_mapreduce_job.egg-info
+
+deployment-package:  ## makes a deployment package with all dependencies
+	# installing all dependencies to the vendors directory
+	mkdir vendors
+	pip install --target vendors -r requirements.txt
+	python setup.py sdist --create_deployment_package
+	rm -rf vendors
+	rm -rf build
 	rm -rf model_mapreduce_job.egg-info
 
 venv: ## create virtual environment
@@ -63,9 +73,3 @@ check-security:  ## checks for common security vulnerabilities
 
 check-dependencies:  ## checks for security vulnerabilities in dependencies
 	safety check -r requirements.txt
-
-generate-proto:  ## generate a .proto file from the models in configuration
-	python scripts/generate_proto.py --output_file=model_service.proto
-
-generate-code:  ## generate python code from a .proto file
-	python -m grpc_tools.protoc --proto_path=. --python_out=. --grpc_python_out=. model_service.proto
