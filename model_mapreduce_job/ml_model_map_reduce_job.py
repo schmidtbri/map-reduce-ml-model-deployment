@@ -1,44 +1,53 @@
-"""Class to host an MlModel object in a MapReduce job."""
+"""MapReduce job that hosts MLModel objects."""
+import os
 import logging
-import json
+from mrjob.protocol import JSONValueProtocol
 from mrjob.job import MRJob
 
-from model_mapreduce_job import __name__
+from model_mapreduce_job.config import Config
 from model_mapreduce_job.model_manager import ModelManager
 
-logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
+
+# loading the configuration
+configuration = __import__("model_mapreduce_job"). \
+    __getattribute__("config"). \
+    __getattribute__(os.environ["APP_SETTINGS"])
+
+# loading the models into the ModelManager
+model_manager = ModelManager()
+model_manager.load_models(Config.models)
 
 
 class MLModelMapReduceJob(MRJob):
-    """Class for MLModel gRPC endpoints."""
+    """MapReduce job definition."""
 
-    def __init__(self, model_qualified_name, **kwargs):
-        """Create a MapReduce job for an MLModel object.
+    INPUT_PROTOCOL = JSONValueProtocol
+    OUTPUT_PROTOCOL = JSONValueProtocol
 
-        :param model_qualified_name: The qualified name of the model that will be hosted in this endpoint.
-        :type model_qualified_name: str
-        :returns: An instance of MLModelMapReduceJob.
-        :rtype: MLModelMapReduceJob
-        """
-        super().__init__(kwargs)
+    def __init__(self, *args, **kwargs):
+        """Initialize class."""
+        super(MLModelMapReduceJob, self).__init__(*args, **kwargs)
 
-        model_manager = ModelManager()
-        self._model = model_manager.get_model(model_qualified_name)
+        self._model = model_manager.get_model(self.options.model_qualified_name)
 
         if self._model is None:
-            raise ValueError("'{}' not found in ModelManager instance.".format(model_qualified_name))
+            raise ValueError("'{}' not found in the ModelManager instance.".format("iris_model"))
 
-        logger.info("Initializing MapReduce job for model: {}".format(self._model.qualified_name))
+    def configure_args(self):
+        """Configure command line argument."""
+        super(MLModelMapReduceJob, self).configure_args()
+        self.add_passthru_arg('--model_qualified_name', default="iris_model",
+                              type=str, help='Qualified name of the model.')
 
-    def mapper(self, _, line):
-        """Mapper that makes a prediction using an MLModel object."""
-        try:
-            data = json.loads(line)
-        except json.decoder.JSONDecodeError as e:
-            yield None
-
-        # making a prediction and serializing it to JSON
+    def mapper(self, _, data):
+        """Mapper function that makes prediction with an MLModel object."""
+        # making a prediction and serializing it to JSON string
         prediction = self._model.predict(data=data)
-        json_prediction = json.dumps(prediction)
 
-        yield json_prediction
+        # yielding the prediction result
+        yield data, prediction
+
+
+if __name__ == '__main__':
+    MLModelMapReduceJob.run()
