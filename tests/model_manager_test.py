@@ -30,7 +30,7 @@ class SomeClass(object):
 class ModelManagerTests(unittest.TestCase):
 
     def test1(self):
-        """ testing the load_models() method """
+        """Testing the load_models() method"""
         # arrange
         # instantiating the model manager class
         model_manager = ModelManager()
@@ -55,7 +55,7 @@ class ModelManagerTests(unittest.TestCase):
         self.assertTrue(model_object is not None)
 
     def test2(self):
-        """testing that the ModelManager will return the same instance of an MLModel class from several different
+        """Testing that the ModelManager will return the same instance of an MLModel class from several different
         instances of ModelManager"""
         # arrange
         # instantiating the model manager class
@@ -81,7 +81,7 @@ class ModelManagerTests(unittest.TestCase):
         self.assertTrue(str(first_model_object) == str(second_model_object))
 
     def test3(self):
-        """ testing that the ModelManager only allows MLModel objects to be stored """
+        """Testing that the ModelManager only allows MLModel objects to be stored"""
         # arrange
         model_manager = ModelManager()
 
@@ -104,7 +104,7 @@ class ModelManagerTests(unittest.TestCase):
         self.assertTrue(exception_message == "The ModelManager can only hold references to objects of type MLModel.")
 
     def test4(self):
-        """ testing that the ModelManager returns None when a model is not found """
+        """Testing that the ModelManager returns None when a model is not found"""
         # arrange
         model_manager = ModelManager()
         model_manager.load_models(configuration=[

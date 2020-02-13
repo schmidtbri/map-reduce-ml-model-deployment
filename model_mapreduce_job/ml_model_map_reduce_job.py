@@ -1,7 +1,7 @@
 """MapReduce job that hosts MLModel objects."""
 import os
 import logging
-from mrjob.protocol import JSONValueProtocol
+from mrjob.protocol import JSONProtocol, JSONValueProtocol
 from mrjob.job import MRJob
 
 from model_mapreduce_job.config import Config
@@ -23,7 +23,10 @@ class MLModelMapReduceJob(MRJob):
     """MapReduce job definition."""
 
     INPUT_PROTOCOL = JSONValueProtocol
-    OUTPUT_PROTOCOL = JSONValueProtocol
+    OUTPUT_PROTOCOL = JSONProtocol
+
+    # setting used to include package when running in AWS EMR
+    DIRS = ['../model_mapreduce_job']
 
     def __init__(self, *args, **kwargs):
         """Initialize class."""
@@ -32,17 +35,16 @@ class MLModelMapReduceJob(MRJob):
         self._model = model_manager.get_model(self.options.model_qualified_name)
 
         if self._model is None:
-            raise ValueError("'{}' not found in the ModelManager instance.".format("iris_model"))
+            raise ValueError("'{}' not found in the ModelManager instance.".format(self.options.model_qualified_name))
 
     def configure_args(self):
         """Configure command line argument."""
         super(MLModelMapReduceJob, self).configure_args()
-        self.add_passthru_arg('--model_qualified_name', default="iris_model",
-                              type=str, help='Qualified name of the model.')
+        self.add_passthru_arg('--model_qualified_name', type=str, help='Qualified name of the model.')
 
     def mapper(self, _, data):
         """Mapper function that makes prediction with an MLModel object."""
-        # making a prediction and serializing it to JSON string
+        # making a prediction
         prediction = self._model.predict(data=data)
 
         # yielding the prediction result
