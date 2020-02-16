@@ -1,5 +1,7 @@
 """MapReduce job that hosts MLModel objects."""
 import os
+import sys
+from pathlib import Path
 import logging
 from mrjob.protocol import JSONProtocol, JSONValueProtocol
 from mrjob.job import MRJob
@@ -44,8 +46,12 @@ class MLModelMapReduceJob(MRJob):
 
     def mapper(self, _, data):
         """Mapper function that makes prediction with an MLModel object."""
-        # making a prediction
-        prediction = self._model.predict(data=data)
+        prediction = None
+        try:
+            # making a prediction
+            prediction = self._model.predict(data=data)
+        except Exception as e:
+            prediction = None
 
         # yielding the prediction result
         yield data, prediction

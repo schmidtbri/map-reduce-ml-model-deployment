@@ -2,7 +2,7 @@ TEST_PATH=./tests
 
 .DEFAULT_GOAL := help
 
-.PHONY: help clean-pyc build clean-build deployment-package venv dependencies test-dependencies clean-venv test test-reports clean-test check-codestyle check-docstyle
+.PHONY: help clean-pyc build clean-build venv dependencies test-dependencies clean-venv test test-reports clean-test check-codestyle check-docstyle
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -19,15 +19,6 @@ clean-build:  ## clean build artifacts
 	rm -rf build
 	rm -rf dist
 	rm -rf vendors
-	rm -rf model_mapreduce_job.egg-info
-
-deployment-package:  ## makes a deployment package with all dependencies
-	# installing all dependencies to the vendors directory
-	mkdir vendors
-	pip install --target vendors -r requirements.txt
-	python setup.py sdist --create_deployment_package
-	rm -rf vendors
-	rm -rf build
 	rm -rf model_mapreduce_job.egg-info
 
 venv: ## create virtual environment
