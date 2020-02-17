@@ -35,6 +35,9 @@ jobs:
     - name: Check Docstyle
       run: make check-docstyle
 
+    - name: Check Code Metrics
+        run: make check-codemetrics
+
     - name: Check Security Issues
       run: make check-security
 

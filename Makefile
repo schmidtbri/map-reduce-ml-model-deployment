@@ -64,3 +64,6 @@ check-security:  ## checks for common security vulnerabilities
 
 check-dependencies:  ## checks for security vulnerabilities in dependencies
 	safety check -r requirements.txt
+
+check-codemetrics:  ## calculate code metrics of the package
+	radon cc model_mapreduce_job
