@@ -1,7 +1,5 @@
 """MapReduce job that hosts MLModel objects."""
 import os
-import sys
-from pathlib import Path
 import logging
 from mrjob.protocol import JSONProtocol, JSONValueProtocol
 from mrjob.job import MRJob
