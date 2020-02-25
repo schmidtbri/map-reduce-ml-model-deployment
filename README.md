@@ -6,7 +6,7 @@ Deploying an ML model in a MapReduce job.
 
 Deploying an ML model in a MapReduce job.
 
-This code is used in this [blog post]().
+This code is used in this [blog post](https://medium.com/@brianschmidt_78145/a-mapreduce-ml-model-deployment-98a2b7de5803).
 
 ## Requirements
 Docker
