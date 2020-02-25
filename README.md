@@ -8,9 +8,6 @@ Deploying an ML model in a MapReduce job.
 
 This code is used in this [blog post](https://medium.com/@brianschmidt_78145/a-mapreduce-ml-model-deployment-98a2b7de5803).
 
-## Requirements
-Docker
-
 ## Installation 
 The makefile included with this project contains targets that help to automate several tasks.
 
@@ -51,5 +48,9 @@ make test
 ## Running the Job
 To start the job execute these commands:
 ```bash
-
+export PYTHONPATH=./
+export APP_SETTINGS=ProdConfig
+python model_mapreduce_job/ml_model_map_reduce_job.py \
+    --model_qualified_name iris_model ./data/input.ldjson > \
+    data/output.ldjson
 ```
