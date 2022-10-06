@@ -44,7 +44,7 @@ stevedore==1.32.0
 certifi==2019.11.28
 chardet==3.0.4
 Click==7.0
-dparse==0.4.1
+dparse==0.5.2
 idna==2.8
 requests==2.22.0
 safety==1.8.5
