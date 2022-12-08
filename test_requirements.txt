@@ -41,7 +41,7 @@ PyYAML==5.3
 smmap2==2.0.5
 stevedore==1.32.0
 # these packages are used to check depdencies for security issues
-certifi==2019.11.28
+certifi==2022.12.7
 chardet==3.0.4
 Click==7.0
 dparse==0.4.1
